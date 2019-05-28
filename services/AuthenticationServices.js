@@ -23,8 +23,7 @@ AuthenticationServices.authenticate = (login, password) => new Promise((resolve,
                 'id',
                 'login',
                 'email',
-                'name',
-                'imageFile'
+                'name'
             ],
         })
         .then(user => {
