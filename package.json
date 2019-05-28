@@ -1,0 +1,29 @@
+{
+  "name": "progmobile-webservice",
+  "version": "0.0.1",
+  "description": "Repositório com os arquivos para o Webservice do Trabalho 1 de Programação para Dispositivos Móveis 2019 @ FACOM - UFMS",
+  "main": "app.js",
+  "scripts": {
+    "insert-sample-data": "node ./scripts/insert-sample-data.js",
+    "create-db": "node ./scripts/create-db.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elmojrf/progmobile-webservice.git"
+  },
+  "author": "Elmo Jr. Ficagna @ FACOM - UFMS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elmojrf/progmobile-webservice/issues"
+  },
+  "homepage": "https://github.com/elmojrf/progmobile-webservice#readme",
+  "dependencies": {
+    "http-status-codes": "^1.3.2",
+    "moment": "^2.24.0",
+    "restify": "^7.2.2",
+    "restify-cors-middleware": "^1.1.1",
+    "sequelize": "^5.8.6",
+    "sqlite3": "^4.0.8"
+  }
+}
