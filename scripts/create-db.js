@@ -98,13 +98,6 @@ const forceModelSync = () => new Promise((resolve, reject) => {
         });
 });
 
-// checkDatabaseFile()
-//     .then(createDatabaseBackup)
-//     .then(forceModelSync)
-//     .catch(err => {
-//         console.log(err);
-//     })
-
 checkDirectory(dbDir)
     .then(checkDatabase(dbFilePath))
     .then(checkDirectory(dbBackupDir))
