@@ -7,6 +7,9 @@ const services = require('../services/AuthenticationServices');
 //Server Restify
 const server = require('../config/server').server;
 
+//Validação de Token
+const validateToken = require('../config/token');
+
 //Url do Recurso
 const resourceName = '/authentication';
 
@@ -48,12 +51,10 @@ server.post(resourceName, (request, response, next) => {
     next();
 });
 
-server.del(resourceName, (request, response, next) => {
+server.del(resourceName, validateToken, (request, response, next) => {
 
-    const {
-        token,
-        userId
-    } = request.params;
+    const token = request.header('token');
+    const userId = request.header('userId');
 
     services.deactivate(token, userId)
         .then(token => {
