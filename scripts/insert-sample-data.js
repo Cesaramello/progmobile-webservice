@@ -1,17 +1,21 @@
 const model = require('../model');
 
+//Models
 const {
     User
 } = model.users;
 
 const {
-    Place
+    Place,
+    Event
 } = model.events;
 
+//Sampel Data
 const sampleData = require('./sample-data');
 const {
     users: sampleUsers,
-    places: samplePlaces
+    places: samplePlaces,
+    events: sampleEvents
 } = sampleData;
 
 sampleUsers.map(user => {
@@ -37,3 +41,15 @@ samplePlaces.map(place => {
         })
         
 });
+
+sampleEvents.map(event => {
+
+    Event.create(event)
+        .then(createdEvent => {
+            console.log(JSON.stringify(createdEvent, null, 4));
+        })
+        .catch(err => {
+            console.error('Erro ao criar o Event', event, err);
+        })
+
+})
