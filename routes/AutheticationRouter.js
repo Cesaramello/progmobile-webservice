@@ -18,8 +18,6 @@ server.get(resourceName, (request, response, next) => {
         userId
     } = request.query;
 
-    console.log(request.query);
-
     services.validate(token, userId)
         .then(user => {
             response.send(HttpStatus.OK, user);

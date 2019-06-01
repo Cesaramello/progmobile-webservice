@@ -96,7 +96,7 @@ const events = [{
         description: 'Letícia Pinheiro de Novaes, cujo nome artístico é Letrux, é uma atriz, escritora, cantora, compositora e instrumentista brasileira. Nos anos 2000, juntamente com o multi-instrumentista e compositor Lucas Vasconcellos, formava a banda Letuce. Em 2016, o grupo encerrou suas atividades. Em 2017, ela lançou seu primeiro álbum solo, intitulado Letrux em Noite de Climão, que foi eleito o 10º melhor disco brasileiro de 2017 pela revista Rolling Stone Brasil.',
         imageUrl: '/images/event-banner_letrux.jpg',
         placeId: 4 //Centro de Convenções Rubens Gil de Camillo
-    }  
+    }
 ];
 
 module.exports = {
