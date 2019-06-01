@@ -14,6 +14,10 @@ const AuthenticationServices = {};
 
 AuthenticationServices.authenticate = (login, password) => new Promise((resolve, reject) => {
 
+    if (login == null || password == null) {
+        return (reject('Usuário e/ou senha inválidos.'));
+    }
+
     User.findOne({
             where: {
                 login: login,
@@ -52,6 +56,11 @@ AuthenticationServices.authenticate = (login, password) => new Promise((resolve,
 });
 
 AuthenticationServices.validate = (token, userId) => new Promise((resolve, reject) => {
+
+    if (token == null || userId == null) {
+        return (reject('Token ou usuário inválido.'));
+    }
+
     Token.findOne({
             where: {
                 key: token,
@@ -65,7 +74,7 @@ AuthenticationServices.validate = (token, userId) => new Promise((resolve, rejec
                         resolve(user);
                     })
             } else {
-                reject('Token inválido');
+                reject('Token ou usuário inválido.');
             }
         })
         .catch(err => {
@@ -74,6 +83,10 @@ AuthenticationServices.validate = (token, userId) => new Promise((resolve, rejec
 });
 
 AuthenticationServices.deactivate = (token, userId) => new Promise((resolve, reject) => {
+
+    if (token == null || userId == null) {
+        return (reject('Token ou usuário inválido.'));
+    }
 
     Token.findOne({
             where: {
