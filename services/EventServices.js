@@ -1,9 +1,14 @@
 const events = require('../model').events;
+const tickets = require('../model').tickets;
 
 const {
     Event,
     Place
 } = events;
+
+const {
+    TicketType
+} = tickets;
 
 const EventServices = {};
 
@@ -50,6 +55,29 @@ EventServices.getEvent = eventId => new Promise((resolve, reject) => {
             }]
         })
         .then(event => resolve(event))
+        .catch(err => {
+            console.error(err);
+            reject(err);
+        })
+
+});
+
+EventServices.getTicketTypes = eventId => new Promise((resolve, reject) => {
+
+    EventServices.getEvent(eventId)
+        .then(event => {
+            if (event) {
+                TicketType.findAll({
+                        where: {
+                            eventId: eventId
+                        }
+                    })
+                    .then(ticketTypes => resolve(ticketTypes))
+                    .catch(err => reject(err));
+            } else {
+                reject('Evento não encontrado.');
+            }
+        })
         .catch(err => {
             console.error(err);
             reject(err);
