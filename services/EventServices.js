@@ -23,9 +23,12 @@ EventServices.getEvents = () => new Promise((resolve, reject) => {
                 'imageUrl'
             ],
             include: [{
-                model: Place,
-                as: 'place'
-            }]
+                    model: Place
+                },
+                {
+                    model: TicketType,
+                }
+            ]
         })
         .then(events => resolve(events))
         .catch(err => {
@@ -50,34 +53,14 @@ EventServices.getEvent = eventId => new Promise((resolve, reject) => {
                 'imageUrl'
             ],
             include: [{
-                model: Place,
-                as: 'place'
-            }]
+                    model: Place,
+                },
+                {
+                    model: TicketType,
+                }
+            ]
         })
         .then(event => resolve(event))
-        .catch(err => {
-            console.error(err);
-            reject(err);
-        })
-
-});
-
-EventServices.getTicketTypes = eventId => new Promise((resolve, reject) => {
-
-    EventServices.getEvent(eventId)
-        .then(event => {
-            if (event) {
-                TicketType.findAll({
-                        where: {
-                            eventId: eventId
-                        }
-                    })
-                    .then(ticketTypes => resolve(ticketTypes))
-                    .catch(err => reject(err));
-            } else {
-                reject('Evento não encontrado.');
-            }
-        })
         .catch(err => {
             console.error(err);
             reject(err);

@@ -6,6 +6,7 @@ const Sequelize = sequelize.Sequelize;
 
 //Depêndências para associações
 const Place = require('./Place');
+const TicketType = require('../tickets/TicketType');
 
 //Definição do Sequelize Model
 const Event = sequelize.define('event', {
@@ -25,5 +26,6 @@ const Event = sequelize.define('event', {
 
 //Associações
 Event.belongsTo(Place);
+Event.hasMany(TicketType);
 
 module.exports = Event;

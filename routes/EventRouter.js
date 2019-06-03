@@ -45,24 +45,3 @@ server.get(resourceName + '/:eventId', (request, response, next) => {
     next();
 
 });
-
-//Subrecurso para Tipos de Tickets
-server.get(resourceName + '/:eventId/ticketTypes', (request, response, next) => {
-
-    const {
-        eventId
-    } = request.params;
-
-    services.getTicketTypes(eventId)
-        .then(ticketTypes => {
-            console.log(ticketTypes);
-            ticketTypes ? response.send(HttpStatus.OK, ticketTypes) : response.send(HttpStatus.NOT_FOUND, []);
-        })
-        .catch(err => {
-            console.error(err);
-            response.send(HttpStatus.BAD_REQUEST, err);
-        })
-
-    next();
-
-});
