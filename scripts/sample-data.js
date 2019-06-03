@@ -99,8 +99,77 @@ const events = [{
     }
 ];
 
+const ticketTypes = [{
+        id: 1,
+        name: 'Camarote',
+        price: 899.00,
+        eventId: 1 //Muse
+    },
+    {
+        id: 2,
+        name: 'Pista Comum - Inteira',
+        price: 399.00,
+        eventId: 1 //Muse
+    },
+    {
+        id: 3,
+        name: 'Pista Comum - Meia Entrada',
+        price: 199.50,
+        eventId: 1 //Muse
+    },
+    {
+        id: 4,
+        name: 'Setor VIP',
+        price: 780.00,
+        eventId: 2 //Arctic Monkeys
+    },
+    {
+        id: 5,
+        name: 'Backstage',
+        price: 840.00,
+        eventId: 2 //Arctic Monkeys
+    },
+    {
+        id: 6,
+        name: 'Arquibancada - Inteira',
+        price: 420.00,
+        eventId: 2 //Arctic Monkeys
+    },
+    {
+        id: 7,
+        name: 'Arquibancada - Meia Entrada',
+        price: 210.00,
+        eventId: 2 //Arctic Monkeys
+    },
+    {
+        id: 8,
+        name: 'Entrada Inteira',
+        price: 600.00,
+        eventId: 3 //Two Door Cinema Club'
+    },
+    {
+        id: 9,
+        name: 'Meia Entrada',
+        price: 300.00,
+        eventId: 3 //Two Door Cinema Club'
+    },
+    {
+        id: 10,
+        name: 'Entrada Inteira',
+        price: 120.00,
+        eventId: 4 //Letrux
+    },
+    {
+        id: 11,
+        name: 'Meia Inteira',
+        price: 60.00,
+        eventId: 4 //Letrux
+    }
+];
+
 module.exports = {
     users,
     places,
-    events
+    events,
+    ticketTypes
 };

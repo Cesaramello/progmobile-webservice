@@ -10,12 +10,17 @@ const {
     Event
 } = model.events;
 
+const {
+    TicketType
+} = model.tickets;
+
 //Sampel Data
 const sampleData = require('./sample-data');
 const {
     users: sampleUsers,
     places: samplePlaces,
-    events: sampleEvents
+    events: sampleEvents,
+    ticketTypes: sampleTitcketTypes
 } = sampleData;
 
 sampleUsers.map(user => {
@@ -39,7 +44,7 @@ samplePlaces.map(place => {
         .catch(err => {
             console.error('Erro ao criar o Place', place, err);
         })
-        
+
 });
 
 sampleEvents.map(event => {
@@ -53,3 +58,15 @@ sampleEvents.map(event => {
         })
 
 })
+
+sampleTitcketTypes.map(ticketType => {
+
+    TicketType.create(ticketType)
+        .then(createdTicketType => {
+            console.log(JSON.stringify(createdTicketType, null, 4));
+        })
+        .catch(err => {
+            console.error('Erro ao criar o TicketType', ticketType, err);
+        })
+
+});
