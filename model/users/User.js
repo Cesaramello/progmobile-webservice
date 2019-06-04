@@ -6,6 +6,7 @@ const Sequelize = sequelize.Sequelize;
 
 //Depêndências para associações
 const Token = require('./Token');
+const Purchase = require('../purchases/Purchase');
 
 //Definição do Sequelize Model
 const User = sequelize.define('user', {
@@ -18,8 +19,8 @@ const User = sequelize.define('user', {
                 msg: 'O login é obrigatório.'
             },
             len: {
-                args: [5, 10],
-                msg: 'O login deve ter entre 5 e 10 caracteres.'
+                args: [4, 10],
+                msg: 'O login deve ter entre 4 e 10 caracteres.'
             }
         }
     },
@@ -66,5 +67,6 @@ const User = sequelize.define('user', {
 
 //Associações
 User.hasMany(Token);
+User.hasMany(Purchase);
 
 module.exports = User;
