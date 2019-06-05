@@ -1,4 +1,5 @@
 const moment = require('moment');
+const crypto = require('crypto');
 
 const users = [{
         id: 1,
@@ -167,9 +168,69 @@ const ticketTypes = [{
     }
 ];
 
+const purchases = [{
+        id: 1,
+        date: Date.now(),
+        total_value: 999.99,
+        payment_status: 'approved',
+        eventId: 4, //Letrux
+        userId: 1 //elmo
+    },
+    {
+        id: 2,
+        date: Date.now(),
+        total_value: 999.99,
+        payment_status: 'approved',
+        eventId: 3, //Two Door Cinema Club
+        userId: 1 //elmo
+    },
+    {
+        id: 3,
+        date: Date.now(),
+        total_value: 999.99,
+        payment_status: 'approved',
+        eventId: 1, //Muse
+        userId: 3 //hueligton
+    }
+];
+
+const tickets = [{
+        id: 1,
+        validation_hash: crypto.randomBytes(16).toString('hex'),
+        ticketTypeId: 10, //Letrux - Inteira
+        purchaseId: 1
+    },
+    {
+        id: 2,
+        validation_hash: crypto.randomBytes(16).toString('hex'),
+        ticketTypeId: 11, //Letrux - Meia
+        purchaseId: 1
+    },
+    {
+        id: 3,
+        validation_hash: crypto.randomBytes(16).toString('hex'),
+        ticketTypeId: 8, //Two Door Cinema Club - Inteira
+        purchaseId: 2
+    },
+    {
+        id: 4,
+        validation_hash: crypto.randomBytes(16).toString('hex'),
+        ticketTypeId: 1, //Muse - Camarote
+        purchaseId: 3
+    },
+    {
+        id: 5,
+        validation_hash: crypto.randomBytes(16).toString('hex'),
+        ticketTypeId: 1, //Muse - Camarote
+        purchaseId: 3
+    }
+];
+
 module.exports = {
     users,
     places,
     events,
-    ticketTypes
+    ticketTypes,
+    purchases,
+    tickets
 };
