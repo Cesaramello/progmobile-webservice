@@ -31,6 +31,8 @@ server.post(resourceName, (request, response, next) => {
             response.send(HttpStatus.OK, user);
         })
         .catch(err => {
+            console.log(err);
+            response.header('errors', err);
             response.send(HttpStatus.BAD_REQUEST, err);
         })
 
