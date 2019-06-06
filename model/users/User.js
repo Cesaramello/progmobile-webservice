@@ -45,7 +45,7 @@ const User = sequelize.define('user', {
                 msg: 'O nome é obrigatório.'
             },
             len: {
-                args: [5, 120],
+                args: [4, 120],
                 msg: 'O nome deve ter entre 5 e 120 caracteres.'
             }
         }
