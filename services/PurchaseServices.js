@@ -18,6 +18,34 @@ const {
 
 PurchaseServices = {};
 
+const joinPurchaseEvent = purchase => {
+
+    const plainPurchase = purchase.get({
+        plain: true
+    });
+    const eventId = plainPurchase.eventId;
+
+    return Event.findOne({
+        where: {
+            id: eventId
+        },
+        include: [{
+                model: Place
+            },
+            {
+                model: TicketType,
+            }
+        ]
+    }).then(event => {
+        plainPurchase.event = event.get({
+            plain: true
+        });
+        delete plainPurchase.eventId;
+        return plainPurchase;
+    })
+
+};
+
 PurchaseServices.getPurchases = userId => new Promise((resolve, reject) => {
 
     Purchase.findAll({
@@ -31,38 +59,10 @@ PurchaseServices.getPurchases = userId => new Promise((resolve, reject) => {
         .then(purchases => {
 
             if (purchases) {
-
-                const promises = purchases.map(purchase => {
-
-                    const plainPurchase = purchase.get({
-                        plain: true
-                    });
-                    const eventId = plainPurchase.eventId;
-
-                    return Event.findOne({
-                        where: {
-                            id: eventId
-                        },
-                        include: [{
-                                model: Place
-                            },
-                            {
-                                model: TicketType,
-                            }
-                        ]
-                    }).then(event => {
-                        plainPurchase.event = event.get({
-                            plain: true
-                        });
-                        delete plainPurchase.eventId;
-                        return plainPurchase;
+                Promise.all(purchases.map(joinPurchaseEvent))
+                    .then(plainPurchases => {
+                        resolve(plainPurchases);
                     })
-
-                })
-
-                Promise.all(promises).then(plainPurchases => {
-                    resolve(plainPurchases);
-                })
 
             } else {
                 resolve(purchases);
@@ -70,6 +70,33 @@ PurchaseServices.getPurchases = userId => new Promise((resolve, reject) => {
 
         })
         .catch(err => reject(err));
+
+});
+
+PurchaseServices.getPurchase = (userId, purchaseId) => new Promise((resolve, reject) => {
+
+    console.log(userId, purchaseId);
+
+    Purchase.findOne({
+        where: {
+            userId: userId,
+            id: purchaseId
+        },
+        include: [{
+            model: Ticket
+        }]
+    }).then(purchase => {
+        
+
+        if (purchase) {
+            joinPurchaseEvent(purchase)
+                .then(plainPurchase => resolve(plainPurchase));
+        } else {
+            resolve(purchase);
+        }
+
+    })
+
 
 });
 
