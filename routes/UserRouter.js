@@ -28,7 +28,7 @@ server.post(resourceName, (request, response, next) => {
 
     services.createUser(user)
         .then(user => {
-            response.send(HttpStatus.OK, user);
+            user ? response.send(HttpStatus.OK, user) : response.send(HttpStatus.UNPROCESSABLE_ENTITY, {});
         })
         .catch(err => {
             console.log(err);
