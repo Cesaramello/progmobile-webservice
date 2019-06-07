@@ -113,9 +113,11 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
     if (checkJson(tickets)) {
         ticketsList = JSON.parse(tickets);
         if (ticketsList.length == 0) {
+            console.error('A compra deve ter no mínimo um ingresso.');
             return (reject('A compra deve ter no mínimo um ingresso.'));
         }
     } else {
+        console.error('Os tickets recebidos não são um JSON bem formado.');
         return (reject('Os tickets recebidos não são um JSON bem formado.'));
     }
 
@@ -171,14 +173,17 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
                                     }
 
                                 } else {
+                                    console.error('Existe um problema na quantidade de ingressos informada. ' + JSON.stringify(currentTicket));
                                     return (reject('Existe um problema na quantidade de ingressos informada. ' + JSON.stringify(currentTicket)));
                                 }
 
                             } else {
+                                console.error('O ticketTypeId não pertence ao evento informado. ' + JSON.stringify(currentTicket));
                                 return (reject('O ticketTypeId não pertence ao evento informado. ' + JSON.stringify(currentTicket)));
                             }
 
                         } else {
+                            console.error('Existe um problema no ticketTypeID informado. ' + JSON.stringify(currentTicket));
                             return (reject('Existe um problema no ticketTypeID informado. ' + JSON.stringify(currentTicket)));
                         }
                     });
@@ -219,14 +224,17 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
                     });
 
                 } else {
+                    console.error('O evento informado não foi encontrado');
                     return (reject('O evento informado não foi encontrado'));
                 }
             })
             .catch(err => {
+                console.error(err);
                 return (reject(err));
             })
 
     } else {
+        console.error('Um eventId válido precisa ser informado');
         return (reject('Um eventId válido precisa ser informado'));
     }
 
