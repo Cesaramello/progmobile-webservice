@@ -48,3 +48,24 @@ server.get(resourceName + '/:purchaseId', validateToken, (request, response, nex
     next();
 
 });
+
+
+server.post(resourceName, validateToken, (request, response, next) => {
+
+    const userId = request.header('userId');
+
+    const {
+        eventId,
+        tickets
+    } = request.params;
+
+    services.createPurchase(userId, eventId || null, tickets || null)
+        .then(purchase => {
+            console.log(purchase);
+            purchase ? response.send(HttpStatus.OK, purchase) : response.send(HttpStatus.UNPROCESSABLE_ENTITY, {});
+        })
+        .catch(err => response.send(HttpStatus.BAD_REQUEST, err));
+
+    next();
+
+});
