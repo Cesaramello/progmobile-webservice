@@ -22,7 +22,10 @@ server.get(resourceName, validateToken, (request, response, next) => {
             console.log(purchases);
             purchases ? response.send(HttpStatus.OK, purchases) : response.send(HttpStatus.NOT_FOUND, []);
         })
-        .catch(err => response.send(HttpStatus.SERVICE_UNAVAILABLE, err));
+        .catch(err => {
+            console.error(err);
+            response.send(HttpStatus.SERVICE_UNAVAILABLE, err)
+        });
 
     next();
 
@@ -43,7 +46,10 @@ server.get(resourceName + '/:purchaseId', validateToken, (request, response, nex
             console.log(purchase);
             purchase ? response.send(HttpStatus.OK, purchase) : response.send(HttpStatus.NOT_FOUND, {});
         })
-        .catch(err => response.send(HttpStatus.SERVICE_UNAVAILABLE, err));
+        .catch(err => {
+            console.error(err);
+            response.send(HttpStatus.SERVICE_UNAVAILABLE, err)
+        });
 
     next();
 
@@ -64,7 +70,10 @@ server.post(resourceName, validateToken, (request, response, next) => {
             console.log(purchase);
             purchase ? response.send(HttpStatus.OK, purchase) : response.send(HttpStatus.UNPROCESSABLE_ENTITY, {});
         })
-        .catch(err => response.send(HttpStatus.BAD_REQUEST, err));
+        .catch(err => {
+            console.error(err);
+            response.send(HttpStatus.BAD_REQUEST, err)
+        });
 
     next();
 

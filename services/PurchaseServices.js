@@ -113,11 +113,9 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
     if (checkJson(tickets)) {
         ticketsList = JSON.parse(tickets);
         if (ticketsList.length == 0) {
-            console.error('A compra deve ter no mínimo um ingresso.');
             return (reject('A compra deve ter no mínimo um ingresso.'));
         }
     } else {
-        console.error('Os tickets recebidos não são um JSON bem formado.');
         return (reject('Os tickets recebidos não são um JSON bem formado.'));
     }
 
@@ -144,11 +142,12 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
                     });
                     const eventTicketTypes = plainEvent.ticket_types;
                     const toCreateTickets = [];
+                    let hasError = false;
                     let totalValue = 0;
 
                     ticketsList.map(currentTicket => {
 
-                        if (currentTicket.ticketTypeId && !isNaN(currentTicket.ticketTypeId)) {
+                        if (currentTicket.ticketTypeId && !isNaN(currentTicket.ticketTypeId) && !hasError) {
 
                             const ticketType = eventTicketTypes.find((ticketType) => {
                                 return ticketType.id == currentTicket.ticketTypeId;
@@ -165,66 +164,58 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
                                             ticketTypeId: ticketType.id
                                         }
 
-                                        console.log(formedTicket);
-
                                         totalValue += ticketType.price;
                                         toCreateTickets.push(formedTicket);
                                         i++;
                                     }
 
                                 } else {
-                                    console.error('Existe um problema na quantidade de ingressos informada. ' + JSON.stringify(currentTicket));
+                                    hasError = true;
                                     return (reject('Existe um problema na quantidade de ingressos informada. ' + JSON.stringify(currentTicket)));
                                 }
 
                             } else {
-                                console.error('O ticketTypeId não pertence ao evento informado. ' + JSON.stringify(currentTicket));
+                                hasError = true;
                                 return (reject('O ticketTypeId não pertence ao evento informado. ' + JSON.stringify(currentTicket)));
                             }
 
                         } else {
-                            console.error('Existe um problema no ticketTypeID informado. ' + JSON.stringify(currentTicket));
+                            hasError = true;
                             return (reject('Existe um problema no ticketTypeID informado. ' + JSON.stringify(currentTicket)));
                         }
                     });
 
-                    return sequelize.transaction(t => {
+                    if (hasError = true) {
 
-                        return Purchase.create({
-                                date: Date.now(),
-                                total_value: totalValue,
-                                payment_status: 'approved',
-                                eventId: event.id,
-                                userId: userId
-                            }, {
-                                transaction: t
-                            })
-                            .then(purchase => {
-                                const promises = toCreateTickets.map((ticket) => {
-                                    return purchase.createTicket(ticket, {
-                                        transaction: t
-                                    });
+                        sequelize.transaction(t => {
+
+                            return Purchase.create({
+                                    date: Date.now(),
+                                    total_value: totalValue,
+                                    payment_status: 'approved',
+                                    eventId: event.id,
+                                    userId: userId
+                                }, {
+                                    transaction: t
                                 })
-                                return Promise.all(promises).then(tickets => purchase);
-                            });
-                    }).then(purchase => {
-                        Purchase.findOne({
-                            where: {
-                                id: purchase.id
-                            },
-                            include: [{
-                                model: Ticket
-                            }]
-                        }).then(completePurchase => {
-                            joinPurchaseEvent(completePurchase)
-                                .then(plainPurchase => resolve(plainPurchase));
-                        })
-                    }).catch(err => {
-                        return (reject(err));
-                    });
+                                .then(purchase => {
+                                    const promises = toCreateTickets.map((ticket) => {
+                                        return purchase.createTicket(ticket, {
+                                            transaction: t
+                                        });
+                                    })
+                                    return Promise.all(promises).then(tickets => purchase);
+                                });
+                        }).then(purchase => {
+                            PurchaseServices.getPurchase(userId, purchase.id)
+                                .then(completePurchase => resolve(completePurchase));
+                        }).catch(err => {
+                            return (reject(err));
+                        });
+
+                    }
 
                 } else {
-                    console.error('O evento informado não foi encontrado');
                     return (reject('O evento informado não foi encontrado'));
                 }
             })
@@ -234,7 +225,6 @@ PurchaseServices.createPurchase = (userId, eventId, tickets) => new Promise((res
             })
 
     } else {
-        console.error('Um eventId válido precisa ser informado');
         return (reject('Um eventId válido precisa ser informado'));
     }
 
