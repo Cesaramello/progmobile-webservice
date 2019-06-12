@@ -76,7 +76,7 @@ const events = [{
     },
     {
         id: 2,
-        name: 'Arctic Monkeys',
+        name: 'Artic Monkeys',
         date: moment("03-08-2019 21:00", "DD-MM-YYYY HH:mm").toDate(),
         description: 'Em 2018 a banda lançou o seu sexto disco de estúdio, Tranquility Base Hotel & Casino, e mostrou uma sonoridade bem diferente do que costumava fazer até então. Repleto de referências aos Anos 60 e 70, o álbum tem um clima retrô que vai pescar tanto as influências musicais da época quanto as cinematográficas de nomes como Stanley Kubrick. É com esse show, mesclando canções do disco com clássicos do passado, que a banda vem ao Brasil e promete dar o que falar.',
         imageUrl: '/images/event-banner_arctic-monkeys.jpg',
